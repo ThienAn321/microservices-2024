@@ -1,0 +1,27 @@
+services:
+  network-deploy-service:
+    networks:
+      - my-network
+
+  microservices-base-config:
+    extends:
+      service: network-deploy-service
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+    environment:
+      SPRING_RABBITMQ_HOST: 'rabbitmq'
+      GITHUB_REPO_NAME: 'your-repo'
+      GITHUB_USERNAME: 'your-username'
+      GITHUB_PASSWORD: 'your-password'
+
+  microservices-configserver-config:
+    extends:
+      service: microservices-base-config
+    depends_on:
+      configserver:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: 'default'
+      SPRING_CONFIG_IMPORT: 'configserver:http://configserver:8083/'
