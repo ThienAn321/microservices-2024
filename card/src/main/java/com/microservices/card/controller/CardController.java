@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/cards")
 @RequiredArgsConstructor
-@RefreshScope
 public class CardController {
 
     private final CardService cardService;

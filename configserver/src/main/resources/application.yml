@@ -5,12 +5,12 @@ spring:
     name: configserver
   profiles:
     active: git
-  #    active: native
-  rabbitmq:
-    host: 'localhost'
-    port: 5672
-    username: guest
-    password: guest
+#    active: native
+#  rabbitmq:
+#    host: 'localhost'
+#    port: 5672
+#    username: guest
+#    password: guest
   cloud:
     config:
       server:
