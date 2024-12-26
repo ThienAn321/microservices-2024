@@ -3,6 +3,19 @@ services:
     networks:
       - my-network
 
+  microservices-database-config:
+    extends:
+      service: network-deploy-service
+    image: mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+
   microservices-base-config:
     extends:
       service: network-deploy-service
@@ -11,7 +24,7 @@ services:
         limits:
           memory: 512m
     environment:
-      SPRING_RABBITMQ_HOST: 'rabbitmq'
+#      SPRING_RABBITMQ_HOST: 'rabbitmq'
       GITHUB_REPO_NAME: 'your-repo'
       GITHUB_USERNAME: 'your-username'
       GITHUB_PASSWORD: 'your-password'
@@ -23,5 +36,6 @@ services:
       configserver:
         condition: service_healthy
     environment:
-      SPRING_PROFILES_ACTIVE: 'default'
       SPRING_CONFIG_IMPORT: 'configserver:http://configserver:8083/'
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 123456
