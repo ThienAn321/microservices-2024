@@ -72,6 +72,26 @@ services:
       file: common-config.yml
       service: microservices-base-config
 
+  eurekaserver:
+    image: 'thienan8928/eurekaserver:v1'
+    build:
+      context: ../eurekaserver
+      dockerfile: ../eurekaserver/Dockerfile
+    container_name: eureka-server
+    ports:
+      - '8070:8070'
+    healthcheck:
+      test: 'curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1'
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    environment:
+      SPRING_APPLICATION_NAME: 'eurekaserver'
+    extends:
+      file: common-config.yml
+      service: microservices-configserver-config
+
   account:
     image: 'thienan8928/account:v1'
     build:
@@ -89,7 +109,7 @@ services:
         condition: service_healthy
     extends:
       file: common-config.yml
-      service: microservices-configserver-config
+      service: microservices-eurekaserver-config
 
   card:
     image: 'thienan8928/card:v1'
@@ -108,7 +128,7 @@ services:
         condition: service_healthy
     extends:
       file: common-config.yml
-      service: microservices-configserver-config
+      service: microservices-eurekaserver-config
 
   loan:
     image: 'thienan8928/loan:v1'
@@ -127,7 +147,7 @@ services:
         condition: service_healthy
     extends:
       file: common-config.yml
-      service: microservices-configserver-config
+      service: microservices-eurekaserver-config
 
 networks:
   my-network:

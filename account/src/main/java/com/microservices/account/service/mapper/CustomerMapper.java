@@ -2,6 +2,7 @@ package com.microservices.account.service.mapper;
 
 import com.microservices.account.entity.Customer;
 import com.microservices.account.service.dto.request.CustomerDto;
+import com.microservices.account.service.dto.response.CustomerDetailsDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -9,6 +10,8 @@ import org.mapstruct.ReportingPolicy;
 public interface CustomerMapper {
 
     CustomerDto toCustomerResponseDto(Customer customer);
+
+    CustomerDetailsDto toCustomerDetailsDto(Customer customer);
 
     Customer toEntity(CustomerDto customerDto);
 
