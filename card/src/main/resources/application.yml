@@ -35,9 +35,17 @@ management:
     web:
       exposure:
         include: '*'
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
   endpoint:
     shutdown:
       access: unrestricted
+    health:
+      probes:
+        enabled: true
   info:
     env:
       enabled: true
@@ -60,3 +68,9 @@ info:
     name: "card"
     description: "Card application"
     version: 1.0.0
+
+logging:
+  level:
+    com:
+      microservices:
+        card: DEBUG

@@ -7,6 +7,7 @@ import com.microservices.card.service.dto.response.CardContactInfoDto;
 import com.microservices.card.service.dto.response.ResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/cards")
 @RequiredArgsConstructor
+@Slf4j
 public class CardController {
 
     private final CardService cardService;
@@ -32,7 +35,8 @@ public class CardController {
     private String buildVersion;
 
     @GetMapping("/details")
-    public ResponseEntity<CardDto> getCardDetails(@RequestParam String mobileNumber) {
+    public ResponseEntity<CardDto> getCardDetails(@RequestHeader("correlation-id") String correlationId, @RequestParam String mobileNumber) {
+        log.debug("Correlation-id found: {}", correlationId);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(cardService.getCardDetails(mobileNumber));
     }

@@ -7,6 +7,7 @@ import com.microservices.loan.service.dto.response.LoanContactInfoDto;
 import com.microservices.loan.service.dto.response.ResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/loans")
 @RequiredArgsConstructor
-@RefreshScope
+@Slf4j
 public class LoanController {
 
     private final LoanService loanService;
@@ -33,7 +35,8 @@ public class LoanController {
     private String buildVersion;
 
     @GetMapping("/details")
-    public ResponseEntity<LoanDto> getLoanDetails(@RequestParam String mobileNumber) {
+    public ResponseEntity<LoanDto> getLoanDetails(@RequestHeader("correlation-id") String correlationId, @RequestParam String mobileNumber) {
+        log.debug("Correlation-id found: {}", correlationId);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(loanService.getLoanDetails(mobileNumber));
