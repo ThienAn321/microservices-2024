@@ -29,15 +29,15 @@ public class CustomerServiceImpl implements CustomerService {
     private final LoanFeignClient loanFeignClient;
 
     @Override
-    public CustomerDetailsDto getCustomerDetails(String mobileNumber) {
+    public CustomerDetailsDto getCustomerDetails(String mobileNumber, String correlationId) {
         Customer customer = customerRepository.findByMobileNumber(mobileNumber)
                 .orElseThrow(() -> new DataNotFoundException("Customer", "mobileNumber", mobileNumber));
         AccountDto accountDtoResponse = accountRepository.findByCustomerId(customer.getCustomerId())
                 .map(accountMapper::toAccountResponseDto)
                 .orElseThrow(() -> new DataNotFoundException("Account", "customerId", customer.getCustomerId().toString()));
 
-        ResponseEntity<CardDto> cardDtoResponse = cardFeignClient.getCardDetails(mobileNumber);
-        ResponseEntity<LoanDto> loanDtoResponse = loanFeignClient.getLoanDetails(mobileNumber);
+        ResponseEntity<CardDto> cardDtoResponse = cardFeignClient.getCardDetails(correlationId, mobileNumber);
+        ResponseEntity<LoanDto> loanDtoResponse = loanFeignClient.getLoanDetails(correlationId, mobileNumber);
 
         CustomerDetailsDto customerDetailsDto = customerMapper.toCustomerDetailsDto(customer);
         customerDetailsDto.setAccountDto(accountDtoResponse);

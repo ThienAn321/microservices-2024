@@ -17,6 +17,9 @@ FROM amazoncorretto:21-alpine-jdk
 # Set the working directory
 WORKDIR /app
 
+# Update and install curl using apk
+RUN apk add --no-cache curl
+
 # Copy the built JAR from the build stage
 COPY --from=build /app/target/loan-0.0.1-SNAPSHOT.jar /app/loan-0.0.1-SNAPSHOT.jar
 

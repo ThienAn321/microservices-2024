@@ -12,10 +12,11 @@
         <module name="configserver" />
         <module name="card" />
         <module name="account" />
+        <module name="gateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="eurekaserver" target="21" />
+      <module name="gatewayserver" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -24,6 +25,8 @@
       <module name="card" options="-parameters" />
       <module name="configserver" options="-parameters" />
       <module name="eurekaserver" options="-parameters" />
+      <module name="gateway" options="-parameters" />
+      <module name="gatewayserver" options="-parameters" />
       <module name="loan" options="-parameters" />
     </option>
   </component>

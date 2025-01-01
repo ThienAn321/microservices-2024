@@ -4,5 +4,5 @@ import com.microservices.account.service.dto.response.CustomerDetailsDto;
 
 public interface CustomerService {
 
-    CustomerDetailsDto getCustomerDetails(String mobileNumber);
+    CustomerDetailsDto getCustomerDetails(String mobileNumber, String correlationId);
 }
