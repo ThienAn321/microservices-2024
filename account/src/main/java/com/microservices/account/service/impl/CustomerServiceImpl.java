@@ -36,13 +36,16 @@ public class CustomerServiceImpl implements CustomerService {
                 .map(accountMapper::toAccountResponseDto)
                 .orElseThrow(() -> new DataNotFoundException("Account", "customerId", customer.getCustomerId().toString()));
 
-        ResponseEntity<CardDto> cardDtoResponse = cardFeignClient.getCardDetails(correlationId, mobileNumber);
-        ResponseEntity<LoanDto> loanDtoResponse = loanFeignClient.getLoanDetails(correlationId, mobileNumber);
-
         CustomerDetailsDto customerDetailsDto = customerMapper.toCustomerDetailsDto(customer);
         customerDetailsDto.setAccountDto(accountDtoResponse);
-        customerDetailsDto.setCardDto(cardDtoResponse.getBody());
-        customerDetailsDto.setLoanDto(loanDtoResponse.getBody());
+        ResponseEntity<CardDto> cardDtoResponse = cardFeignClient.getCardDetails(correlationId, mobileNumber);
+        if (cardDtoResponse != null) {
+            customerDetailsDto.setCardDto(cardDtoResponse.getBody());
+        }
+        ResponseEntity<LoanDto> loanDtoResponse = loanFeignClient.getLoanDetails(correlationId, mobileNumber);
+        if (loanDtoResponse != null) {
+            customerDetailsDto.setLoanDto(loanDtoResponse.getBody());
+        }
         return customerDetailsDto;
     }
 }

@@ -23,8 +23,10 @@ public class ResponseTraceFilter implements GlobalFilter {
         return chain.filter(exchange).then(Mono.fromRunnable(() -> {
             HttpHeaders requestHeaders = exchange.getRequest().getHeaders();
             String correlationId = filterUtility.getCorrelationId(requestHeaders);
-            log.debug("Updated the correlation id to the outbound headers: {}", correlationId);
-            exchange.getResponse().getHeaders().add(CommonConstants.CORRELATION_ID, correlationId);
+            if (!(exchange.getResponse().getHeaders().containsKey(CommonConstants.CORRELATION_ID))) {
+                log.debug("Updated the correlation id to the outbound headers: {}", correlationId);
+                exchange.getResponse().getHeaders().add(CommonConstants.CORRELATION_ID, correlationId);
+            }
         }));
     }
 }
