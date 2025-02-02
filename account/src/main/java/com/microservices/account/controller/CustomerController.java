@@ -22,9 +22,12 @@ public class CustomerController {
 
     @GetMapping("/details")
     public ResponseEntity<CustomerDto> getCustomerDetails(@RequestHeader("correlation-id") String correlationId, @RequestParam String mobileNumber) {
-        log.debug("Correlation-id found: {}", correlationId);
+//        log.debug("Correlation-id found: {}", correlationId);
+        log.debug("getCustomerDetails method start");
+        CustomerDto customerDto = customerService.getCustomerDetails(correlationId, mobileNumber);
+        log.debug("getCustomerDetails method end");
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(customerService.getCustomerDetails(mobileNumber, correlationId));
+                .body(customerDto);
     }
 }

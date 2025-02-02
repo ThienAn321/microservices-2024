@@ -10,8 +10,8 @@ services:
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       interval: 30s
-      timeout: 30s
-      retries: 10
+      timeout: 60s
+      retries: 30
       start_period: 10s
     environment:
       MYSQL_ROOT_PASSWORD: 123456
@@ -28,6 +28,8 @@ services:
       GITHUB_REPO_NAME: 'your-repo'
       GITHUB_USERNAME: 'your-username'
       GITHUB_PASSWORD: 'your-password'
+      OTEL_EXPORTER_OTLP_ENDPOINT: 'http://tempo:4317'
+      OTEL_METRICS_EXPORTER: none
 
   microservices-configserver-config:
     extends:

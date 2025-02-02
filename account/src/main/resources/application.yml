@@ -38,7 +38,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: health, info, prometheus, metrics, shutdown
   health:
     readinessstate:
       enabled: true
@@ -53,6 +53,9 @@ management:
   info:
     env:
       enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 endpoints:
   shutdown:
@@ -78,6 +81,8 @@ logging:
     com:
       microservices:
         account: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
 
 resilience4j.circuitbreaker:
   configs:
