@@ -36,10 +36,13 @@ public class LoanController {
 
     @GetMapping("/details")
     public ResponseEntity<LoanDto> getLoanDetails(@RequestHeader("correlation-id") String correlationId, @RequestParam String mobileNumber) {
-        log.debug("Correlation-id found: {}", correlationId);
+//        log.debug("Correlation-id found: {}", correlationId);
+        log.debug("getLoanDetails method start");
+        LoanDto loanDto = loanService.getLoanDetails(mobileNumber);
+        log.debug("getLoanDetails method end");
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(loanService.getLoanDetails(mobileNumber));
+                .body(loanDto);
     }
 
     @PostMapping("/create")

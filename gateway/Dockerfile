@@ -19,6 +19,7 @@ WORKDIR /app
 
 # Copy the built JAR from the build stage
 COPY --from=build /app/target/gateway-0.0.1-SNAPSHOT.jar /app/gateway-0.0.1-SNAPSHOT.jar
+COPY --from=build /app/target/opentelemetry-javaagent.jar /app/opentelemetry-javaagent.jar
 
 # Command to run the application
-CMD ["java", "-jar", "gateway-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-javaagent:/app/opentelemetry-javaagent.jar", "-jar", "gateway-0.0.1-SNAPSHOT.jar"]

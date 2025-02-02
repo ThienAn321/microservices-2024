@@ -22,6 +22,7 @@ RUN apk add --no-cache curl
 
 # Copy the built JAR from the build stage
 COPY --from=build /app/target/account-0.0.1-SNAPSHOT.jar /app/account-0.0.1-SNAPSHOT.jar
+COPY --from=build /app/target/opentelemetry-javaagent.jar /app/opentelemetry-javaagent.jar
 
 # Command to run the application
-CMD ["java", "-jar", "account-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-javaagent:/app/opentelemetry-javaagent.jar", "-jar", "account-0.0.1-SNAPSHOT.jar"]

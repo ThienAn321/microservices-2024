@@ -1,6 +1,6 @@
 spring:
   application:
-    name: 'eurekaserver'
+    name: eurekaserver
   config:
     import: 'optional:configserver:http://localhost:8083/'
 
@@ -8,7 +8,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: health, info, prometheus, metrics, shutdown
   health:
     readinessstate:
       enabled: true
@@ -18,3 +18,10 @@ management:
     health:
       probes:
         enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"

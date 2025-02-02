@@ -36,9 +36,12 @@ public class CardController {
 
     @GetMapping("/details")
     public ResponseEntity<CardDto> getCardDetails(@RequestHeader("correlation-id") String correlationId, @RequestParam String mobileNumber) {
-        log.debug("Correlation-id found: {}", correlationId);
+//        log.debug("Correlation-id found: {}", correlationId);
+        log.debug("getCardDetails method start");
+        CardDto cardDto = cardService.getCardDetails(mobileNumber);
+        log.debug("getCardDetails method end");
         return ResponseEntity.status(HttpStatus.OK)
-                .body(cardService.getCardDetails(mobileNumber));
+                .body(cardDto);
     }
 
     @PostMapping("/create")
