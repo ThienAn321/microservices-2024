@@ -24,7 +24,7 @@ public class CustomerController {
     public ResponseEntity<CustomerDto> getCustomerDetails(@RequestHeader("correlation-id") String correlationId, @RequestParam String mobileNumber) {
 //        log.debug("Correlation-id found: {}", correlationId);
         log.debug("getCustomerDetails method start");
-        CustomerDto customerDto = customerService.getCustomerDetails(correlationId, mobileNumber);
+        CustomerDto customerDto = customerService.getCustomerDetails(mobileNumber, correlationId);
         log.debug("getCustomerDetails method end");
         return ResponseEntity
                 .status(HttpStatus.OK)
